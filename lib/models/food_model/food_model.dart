@@ -9,7 +9,7 @@ FoodModel foodModelFromJson(String str) => FoodModel.fromJson(json.decode(str));
 String foodModelToJson(FoodModel data) => json.encode(data.toJson());
 
 class FoodModel {
-  int? id;
+  String? id;
   String? name;
   String? imagePath;
   String? description;
@@ -30,7 +30,7 @@ class FoodModel {
   });
 
   FoodModel copyWith({
-    int? id,
+    String? id,
     String? name,
     String? imagePath,
     String? description,

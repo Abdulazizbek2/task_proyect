@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:task_proyect/src/storadge_service/shared_prefs_repo.dart';
 
 class SFCEvents {
-  int id;
+  String? id;
   SFCEvents({required this.id});
 }
 
@@ -27,7 +27,7 @@ class SFCInitializaEvent extends SFCEvents {
 }
 
 class SelFoodState {
-  Map<int, int> foods;
+  Map<String, dynamic> foods;
   SelFoodState({required this.foods});
 }
 
@@ -41,30 +41,31 @@ class HomeBloc extends Bloc<SFCEvents, SelFoodState> {
       },
     );
     on<SFCIncrementEvent>((event, emit) async {
-      Map<int, int> foodsMap = state.foods;
-      foodsMap[event.id] = foodsMap[event.id]! + 1;
-      await Prefs.saveDataToLocal(key: "foods", data: foodsMap);
+      Map<String, dynamic> foodsMap = state.foods;
+      foodsMap[event.id!] = foodsMap[event.id]! + 1;
+      bool? bo = await Prefs.saveDataToLocal(key: "foods", data: foodsMap);
+      print("isSav $bo");
       emit(SelFoodState(foods: foodsMap));
     });
     on<SFCDecrementEvent>(
       (event, emit) async {
-        Map<int, int> foodsMap = state.foods;
-        foodsMap[event.id] = foodsMap[event.id]! - 1;
+        Map<String, dynamic> foodsMap = state.foods;
+        foodsMap[event.id!] = foodsMap[event.id]! - 1;
         await Prefs.saveDataToLocal(key: "foods", data: foodsMap);
         emit(SelFoodState(foods: foodsMap));
       },
     );
     on<SFCAddEvent>(
       (event, emit) async {
-        Map<int, int> foodsMap = state.foods;
-        foodsMap[event.id] = 1;
+        Map<String, dynamic> foodsMap = state.foods;
+        foodsMap[event.id!] = 1;
         await Prefs.saveDataToLocal(key: "foods", data: foodsMap);
         emit(SelFoodState(foods: foodsMap));
       },
     );
     on<SFCDeleteEvent>(
       (event, emit) async {
-        Map<int, int> foodsMap = state.foods;
+        Map<String, dynamic> foodsMap = state.foods;
         foodsMap.remove(event.id);
         await Prefs.saveDataToLocal(key: "foods", data: foodsMap);
         emit(SelFoodState(foods: foodsMap));
@@ -72,8 +73,8 @@ class HomeBloc extends Bloc<SFCEvents, SelFoodState> {
     );
   }
   addTocard(SFCEvents event) async {
-    Map<int, int> foodsMap = state.foods;
-    foodsMap[event.id] = 1;
+    Map<String, dynamic> foodsMap = state.foods;
+    foodsMap[event.id!] = 1;
     await Prefs.saveDataToLocal(key: "foods", data: foodsMap);
     state.foods = foodsMap;
     // emit(SelFoodState(foods: foodsMap));

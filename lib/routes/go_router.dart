@@ -79,8 +79,7 @@ final goRouterProvider =
               parentNavigatorKey: _shellNavigator,
               pageBuilder: (context, state) => NoTransitionPage(
                 child: CategoryPage(
-                  key: state.pageKey,
-                ),
+                    key: state.pageKey, text: state.queryParameters['id1']),
               ),
             ),
           ]),

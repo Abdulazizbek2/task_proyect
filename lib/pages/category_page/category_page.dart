@@ -10,7 +10,8 @@ import '../../routes/app_routes.dart';
 // import '../../widgets/tags_but_bar/tags_button_bar_widget.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+  final String? text;
+  const CategoryPage({super.key, required this.text});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -48,7 +49,7 @@ class _CategoryPageState extends State<CategoryPage> {
           },
         ),
         centerTitle: true,
-        title: const Text("data"),
+        title: Text(widget.text ?? "qwerty"),
         actions: [
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(22)),
@@ -296,7 +297,7 @@ class CustomSelectHomeButtonsDialog extends StatelessWidget {
                 initialData: bloc.state,
                 stream: bloc.stream,
                 builder: (context, snapshot) {
-                  Map<int, int> foodMap = snapshot.data!.foods;
+                  Map<String, dynamic> foodMap = snapshot.data!.foods;
                   return GestureDetector(
                     onTap: () {
                       if (!foodMap.containsKey(foodModel.id)) {

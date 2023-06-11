@@ -21,9 +21,8 @@ class KitchenCardMenu extends StatelessWidget {
     // print('${AppRoute.search.path}${AppRoute.detail.path}');
     return GestureDetector(
       onTap: () {
-        context.go(
-          AppRoute.detail.path,
-        );
+        context.goNamed(AppRoute.detail.name,
+            queryParameters: {"id1": text!, "id2": ""});
       },
       child: AspectRatio(
         aspectRatio: 7 / 3,

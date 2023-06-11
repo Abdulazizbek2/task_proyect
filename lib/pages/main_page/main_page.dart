@@ -25,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final dio = DioNetworkService();
     final bloc = context.read<HomeBloc>();
-    bloc.add(SFCInitializaEvent(id: 0));
+    bloc.add(SFCInitializaEvent(id: "0"));
     return Scaffold(
       appBar: homeAppBar(context),
       body: SafeArea(

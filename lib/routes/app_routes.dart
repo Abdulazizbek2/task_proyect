@@ -1,7 +1,7 @@
 enum AppRoute {
   account(path: '/account', name: 'account'),
   search(path: '/search', name: 'search'),
-  detail(path: '/detail', name: 'detail'),
+  detail(path: '/detail', name: 'details'),
   basket(path: '/basket', name: 'basket'),
   root(path: '/', name: 'root'),
   main(path: '/main', name: 'main');

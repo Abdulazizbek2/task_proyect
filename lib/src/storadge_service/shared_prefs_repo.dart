@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Prefs {
   static Future<bool?> saveDataToLocal(
-      {required String? key, required Map<int, int>? data}) async {
+      {required String? key, required Map<String, dynamic>? data}) async {
     try {
       print(1);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -16,7 +16,7 @@ class Prefs {
     return null;
   }
 
-  static Future<Map<int, int>?> loadDataFromLocal(
+  static Future<Map<String, dynamic>?> loadDataFromLocal(
       {required String? key}) async {
     try {
       print(1);
@@ -25,9 +25,9 @@ class Prefs {
 
       String? encodedMap = prefs.getString(key!);
       print(3);
-
-      Map<int, int>? decodedMap = json.decode(encodedMap!);
-      print(4);
+      print(encodedMap);
+      Map<String, dynamic> decodedMap = json.decode(encodedMap!);
+      print(decodedMap);
 
       return decodedMap;
     } catch (e) {

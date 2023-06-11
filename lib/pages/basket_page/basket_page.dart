@@ -47,7 +47,7 @@ class _BasketPageState extends State<BasketPage> {
                 child: ListView.builder(
                     itemCount: foodMap.length,
                     itemBuilder: (con, index) {
-                      int id = foodIdList[index];
+                      String id = foodIdList[index];
                       FoodModel food =
                           data.where((element) => element.id == id).toList()[0];
 
@@ -150,9 +150,9 @@ class OrderFoodCounterWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
                       if (count <= 1) {
-                        bloc.add(SFCDeleteEvent(id: food.id ?? 0));
+                        bloc.add(SFCDeleteEvent(id: food.id ?? "0"));
                       } else {
-                        bloc.add(SFCDecrementEvent(id: food.id ?? 0));
+                        bloc.add(SFCDecrementEvent(id: food.id ?? "0"));
                       }
                     },
                     icon: Icon(
@@ -173,7 +173,7 @@ class OrderFoodCounterWidget extends StatelessWidget {
                     splashRadius: 1.w,
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      bloc.add(SFCIncrementEvent(id: food.id ?? 0));
+                      bloc.add(SFCIncrementEvent(id: food.id ?? "0"));
                     },
                     icon: Icon(
                       Icons.add,
