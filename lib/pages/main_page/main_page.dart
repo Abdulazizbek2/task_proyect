@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:size_config/size_config.dart';
+import 'package:task_proyect/pages/home_page/bloc/home_bloc.dart';
 import '../../models/kitchen_card_model/kitchen_card_model.dart';
 import '../../widgets/home_app_bar/home_app_bar.dart';
 import '../../src/dio_service/dio_repo.dart';
@@ -22,6 +24,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final dio = DioNetworkService();
+    final bloc = context.read<HomeBloc>();
+    bloc.add(SFCInitializaEvent(id: 0));
     return Scaffold(
       appBar: homeAppBar(context),
       body: SafeArea(

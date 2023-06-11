@@ -9,8 +9,6 @@ import '../pages/home_page/home_page.dart';
 import 'app_routes.dart';
 
 final GlobalKey<NavigatorState> _rootNavigator = GlobalKey(debugLabel: 'root');
-final GlobalKey<NavigatorState> _otherNavigator =
-    GlobalKey(debugLabel: 'other');
 final GlobalKey<NavigatorState> _shellNavigator =
     GlobalKey(debugLabel: 'shell');
 

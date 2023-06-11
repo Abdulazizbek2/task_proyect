@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_proyect/pages/home_page/bloc/home_bloc.dart';
 import '../../widgets/bottom_nav_bar/bottom_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +15,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child,
+      body: Provider(
+        create: (_) => HomeBloc(),
+        child: widget.child,
+        dispose: (context, value) {
+          value.close();
+        },
+      ),
       bottomNavigationBar: const BottomNavigationnWidget(),
     );
   }

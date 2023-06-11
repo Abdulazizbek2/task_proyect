@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:size_config/size_config.dart';
 import 'package:task_proyect/models/food_model/food_model.dart';
+import 'package:task_proyect/pages/home_page/bloc/home_bloc.dart';
 import 'package:task_proyect/utils/utils.dart';
 import '../../data/data.dart';
 import '../../routes/app_routes.dart';
@@ -82,7 +84,10 @@ class _CategoryPageState extends State<CategoryPage> {
               padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 28.h),
               itemCount: foods.length * 2,
               itemBuilder: (BuildContext context, int index) {
-                return FoodCardWidget(foodModel: foods[index % foods.length]);
+                return FoodCardWidget(
+                  cnt: context,
+                  foodModel: foods[index % foods.length],
+                );
               },
             ),
           ],
@@ -136,7 +141,8 @@ class _CategoryPageState extends State<CategoryPage> {
 
 class FoodCardWidget extends StatelessWidget {
   final FoodModel foodModel;
-  const FoodCardWidget({super.key, required this.foodModel});
+  final BuildContext cnt;
+  const FoodCardWidget({super.key, required this.foodModel, required this.cnt});
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +153,7 @@ class FoodCardWidget extends StatelessWidget {
           builder: (_) {
             return CustomSelectHomeButtonsDialog(
               foodModel: foodModel,
+              cnt: cnt,
             );
           },
         );
@@ -173,11 +180,14 @@ class FoodCardWidget extends StatelessWidget {
 }
 
 class CustomSelectHomeButtonsDialog extends StatelessWidget {
+  final BuildContext cnt;
   final FoodModel foodModel;
-  const CustomSelectHomeButtonsDialog({super.key, required this.foodModel});
+  const CustomSelectHomeButtonsDialog(
+      {super.key, required this.foodModel, required this.cnt});
 
   @override
   Widget build(BuildContext context) {
+    final bloc = cnt.read<HomeBloc>();
     return Dialog(
       elevation: 0.0,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -282,24 +292,38 @@ class CustomSelectHomeButtonsDialog extends StatelessWidget {
             SizedBox(
               height: 16.h,
             ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                  height: 48.h,
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppConstant.selectedButtonColor,
-                    borderRadius: BorderRadius.circular(10.h),
-                  ),
-                  child: Text(
-                    "Добавить в корзинку",
-                    style: TextStyle(
-                        fontSize: 15.h,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  )),
-            )
+            StreamBuilder<SelFoodState?>(
+                initialData: bloc.state,
+                stream: bloc.stream,
+                builder: (context, snapshot) {
+                  Map<int, int> foodMap = snapshot.data!.foods;
+                  return GestureDetector(
+                    onTap: () {
+                      if (!foodMap.containsKey(foodModel.id)) {
+                        bloc.add(SFCAddEvent(id: foodModel.id!));
+                      }
+                    },
+                    child: Container(
+                        height: 48.h,
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: foodMap.containsKey(foodModel.id)
+                              ? AppConstant.unSelectedButtonColor1
+                              : AppConstant.selectedButtonColor,
+                          borderRadius: BorderRadius.circular(10.h),
+                        ),
+                        child: Text(
+                          foodMap.containsKey(foodModel.id)
+                              ? "Добавлено в корзинку"
+                              : "Добавить в корзинку",
+                          style: TextStyle(
+                              fontSize: 15.h,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        )),
+                  );
+                })
           ],
         ),
       ),
